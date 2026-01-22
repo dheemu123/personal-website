@@ -47,3 +47,4 @@ echo "public/mclaren_mcl60_f1_2023/" >> .gitignore
 echo "public/pizza/" >> .gitignore
 echo "public/pizza_ballerina/" >> .gitignore
 echo "public/simple_weight/" >> .gitignore
+echo "public/fonts/basketball/" >> .gitignore
