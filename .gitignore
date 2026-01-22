@@ -39,8 +39,11 @@ next-env.d.ts
 Thumbs.db
 .env*.local
 
-public/basketball
-public/mclaren_mcl60_f1_2023
-public/pizza
-public/simple_weight
-public/pizza_ballerina
+
+echo "" >> .gitignore
+echo "# 3D models and large assets" >> .gitignore
+echo "public/basketball/" >> .gitignore
+echo "public/mclaren_mcl60_f1_2023/" >> .gitignore
+echo "public/pizza/" >> .gitignore
+echo "public/pizza_ballerina/" >> .gitignore
+echo "public/simple_weight/" >> .gitignore
