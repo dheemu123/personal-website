@@ -57,8 +57,8 @@ function FloatingParticles() {
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 3 + 1,
-      duration: Math.random() * 4 + 3,
-      delay: Math.random() * 2,
+      duration: Math.random() * 2 + 1.5,
+      delay: Math.random() * 0.8,
     }));
   }, []);
 
@@ -97,16 +97,16 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
   const [mComplete, setMComplete] = useState(false);
   const hasCompleted = useRef(false);
 
-  // Phase progression
+  // Phase progression (sped up)
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
     
-    // Phase 1: Show D and M (1.2s)
-    // Phase 2: Arrange vertically (starts at 1.2s, takes ~1s)
-    timers.push(setTimeout(() => setPhase("dm-arrange"), 1200));
+    // Phase 1: Show D and M (0.4s)
+    // Phase 2: Arrange vertically (starts at 0.4s)
+    timers.push(setTimeout(() => setPhase("dm-arrange"), 400));
     
-    // Phase 3: Start typeout (starts at 2.4s)
-    timers.push(setTimeout(() => setPhase("typeout"), 2400));
+    // Phase 3: Start typeout (starts at 0.9s)
+    timers.push(setTimeout(() => setPhase("typeout"), 900));
     
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -114,7 +114,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
   // Check if both typeouts are complete
   useEffect(() => {
     if (dComplete && mComplete && phase === "typeout") {
-      // Wait 1 second after typing, then zoom
+      // Wait 0.8s after typing, then zoom
       setTimeout(() => {
         setPhase("settle");
         
@@ -124,8 +124,8 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             hasCompleted.current = true;
             onComplete();
           }
-        }, 500);
-      }, 1000);
+        }, 300);
+      }, 800);
     }
   }, [dComplete, mComplete, phase, onComplete]);
 
@@ -143,14 +143,14 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             className="flex items-center justify-center gap-6"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             style={{ perspective: "1000px" }}
           >
             <motion.span
               className="font-bodoni text-[12rem] md:text-[16rem] lg:text-[20rem] tracking-tight text-stone-900"
               initial={{ rotateY: -15, x: -30 }}
               animate={{ rotateY: 0, x: 0 }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ 
                 transformStyle: "preserve-3d",
                 textShadow: "0 15px 40px rgba(0,0,0,0.1)",
@@ -162,7 +162,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
               className="font-bodoni text-[12rem] md:text-[16rem] lg:text-[20rem] tracking-tight text-stone-900"
               initial={{ rotateY: 15, x: 30 }}
               animate={{ rotateY: 0, x: 0 }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
               style={{ 
                 transformStyle: "preserve-3d",
                 textShadow: "0 15px 40px rgba(0,0,0,0.1)",
@@ -194,7 +194,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                 y: 0,
                 rotateY: 0,
               }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ 
                 transformStyle: "preserve-3d",
                 textShadow: "0 10px 30px rgba(0,0,0,0.08)",
@@ -216,7 +216,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                 y: 0,
                 rotateY: 0,
               }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.05 }}
+              transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1], delay: 0.03 }}
               style={{ 
                 transformStyle: "preserve-3d",
                 textShadow: "0 10px 30px rgba(0,0,0,0.08)",
@@ -237,7 +237,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             >
               <TypewriterText 
                 text="Dheemanth" 
-                charDelay={0.25}
+                charDelay={0.06}
                 onComplete={() => setDComplete(true)}
               />
             </span>
@@ -246,7 +246,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             >
               <TypewriterText 
                 text="Munipalli" 
-                charDelay={0.25}
+                charDelay={0.06}
                 onComplete={() => setMComplete(true)}
               />
             </span>
@@ -259,7 +259,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
             className="relative z-10 flex flex-col items-center"
             initial={{ scale: 1 }}
             animate={{ scale: 1.2 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
           >
             <span className="font-bodoni text-7xl md:text-9xl lg:text-[10rem] xl:text-[12rem] tracking-tight text-stone-900 block">
               Dheemanth

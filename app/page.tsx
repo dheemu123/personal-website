@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from "framer-motion";
+import { HOBBIES_ENABLED } from "@/lib/config";
 import { useEffect, useRef, useState, ComponentType } from "react";
 
 // Animation phases
@@ -24,6 +25,31 @@ export default function Home() {
   const [NavHeader, setNavHeader] = useState<ComponentType | null>(null);
   const [HobbiesSection, setHobbiesSection] = useState<ComponentType | null>(null);
   
+  // On mount/refresh: always start at top, prevent scroll restoration
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  // Hide scrollbar during intro, show when ready
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const { documentElement, body } = document;
+    if (phase === "intro") {
+      documentElement.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      documentElement.style.overflow = "";
+      body.style.overflow = "";
+    }
+    return () => {
+      documentElement.style.overflow = "";
+      body.style.overflow = "";
+    };
+  }, [phase]);
+
   useEffect(() => {
     // Load components
     import("@/components/ShaderBackground").then((mod) => {
@@ -57,18 +83,18 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Phase 1: Name zooms out slightly
-  const nameScale = useTransform(heroProgress, [0, 0.15], [1.2, 1]);
-  const nameOpacity = useTransform(heroProgress, [0.1, 0.35], [1, 0.5]);
+  // Phase 1: Name zooms out slightly (happens earlier in scroll)
+  const nameScale = useTransform(heroProgress, [0, 0.08], [1.2, 1]);
+  const nameOpacity = useTransform(heroProgress, [0.05, 0.18], [1, 0.5]);
   
   // "Munipalli" swings 180 degrees to go under "Dheemanth"
-  const munipalliRotate = useTransform(heroProgress, [0.05, 0.25], [0, 180]);
-  const munipalliX = useTransform(heroProgress, [0.05, 0.25], [0, -100]);
-  const munipalliY = useTransform(heroProgress, [0.05, 0.25], [0, 80]);
+  const munipalliRotate = useTransform(heroProgress, [0.03, 0.14], [0, 180]);
+  const munipalliX = useTransform(heroProgress, [0.03, 0.14], [0, -100]);
+  const munipalliY = useTransform(heroProgress, [0.03, 0.14], [0, 80]);
   
   // Phase 2: Signature draws after swing completes
-  const signaturePathLength = useTransform(heroProgress, [0.3, 0.6], [0, 1]);
-  const signatureOpacity = useTransform(heroProgress, [0.28, 0.35], [0, 1]);
+  const signaturePathLength = useTransform(heroProgress, [0.12, 0.32], [0, 1]);
+  const signatureOpacity = useTransform(heroProgress, [0.10, 0.18], [0, 1]);
   
   // Hero exit - dramatic zoom and fade out
   const heroExitScale = useTransform(heroProgress, [0.7, 1], [1, 0.8]);
@@ -447,10 +473,12 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Hobbies Section - 3D showcase with dark finale */}
-              <div ref={hobbiesRef}>
-                {HobbiesSection && <HobbiesSection />}
-              </div>
+              {/* Hobbies Section - 3D showcase with dark finale (disabled via HOBBIES_ENABLED) */}
+              {HOBBIES_ENABLED && (
+                <div ref={hobbiesRef}>
+                  {HobbiesSection && <HobbiesSection />}
+                </div>
+              )}
 
               {/* Contact Section - Dark theme finale */}
               <section 

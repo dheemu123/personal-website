@@ -17,7 +17,7 @@ const experiences: Experience[] = [
   },
   {
     company: "AMD",
-    role: "Data Scientist",
+    role: "Software Engineer",
     dates: "August 2024 – January 2025",
     summary:
       "Developed ML and NLP pipelines to detect supply-chain diversion.",

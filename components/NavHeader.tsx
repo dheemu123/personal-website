@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { HOBBIES_ENABLED } from "@/lib/config";
 
-const navLinks = [
+const allNavLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "hobbies", label: "Hobbies" },
   { id: "contact", label: "Contact" },
 ];
+const navLinks = allNavLinks.filter((l) => l.id !== "hobbies" || HOBBIES_ENABLED);
 
 export default function NavHeader() {
   const [activeSection, setActiveSection] = useState("home");
